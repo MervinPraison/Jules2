@@ -96,9 +96,10 @@ def view_transactions():
 # It's good practice to run init_db once, perhaps via a CLI command,
 # but for this simple app, running it before first request is fine.
 # However, to ensure it runs within app context correctly and only once needed:
-@app.before_first_request
-def initialize_database():
-    init_db()
 
 if __name__ == '__main__':
+    # Ensure 'g' is available if not already imported at the top for get_db context
+    # from flask import g # This line is redundant as g is already globally imported
+    with app.app_context():
+        init_db()
     app.run(debug=True)
